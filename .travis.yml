@@ -8,6 +8,9 @@ git:
 language: cpp
 compiler: clang
 # osx_image: xcode6.4
+env:
+  global:
+    secure: "ehqgnmEGTxDZrkh7CzliiZI1lI13G6LqUTW+4vDSeXjh0asmEDtoLkbJUgvm5hBvgogBzAb04TVqby2z2KJe3dMd+qPPw4aDXfK86TfRG71VasEVUHmcwYuIuS8GfNgmg5yPOy7EG10sAMnu16x+5tzgtgWZfcYTLEjZJvV7dn8="
 
 addons:
   apt:
@@ -31,7 +34,7 @@ addons:
 
 matrix:
   include:
-   - env: BUILD="llvm-3.5-debug" COMPILER_VERSION="clang-3.5" FEELPP_STD_CPP=11 FEELPP_CXX=clang++-3.5 FEELPP_CC=clang-3.5 BUILDTYPE=Debug TARGET=quickstart 
+   - env: BUILD="llvm-3.5-debug" COMPILER_VERSION="clang-3.5" FEELPP_STD_CPP=11 FEELPP_CXX=clang++-3.5 FEELPP_CC=clang-3.5 BUILDTYPE=Debug TARGET=quickstart
      addons: &clang35
         apt:
           sources:
@@ -57,7 +60,7 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - *std_packages
-            - clang-3.6            
+            - clang-3.6
 #   - env: BUILD="llvm-3.8" COMPILER_VERSION="clang-3.8" FEELPP_STD_CPP=11 FEELPP_CXX=clang++-3.8 FEELPP_CC=clang-3.8 BUILDTYPE=Release TARGET=quickstart CXXFLAGS="-O2 -DNDEBUG"
 #     addons: &clang38
 #        apt:
@@ -132,8 +135,11 @@ script:
 #- if ! test "x$TARGET" = "x"; then make $TARGET-check; fi
 
 after_success:
-- make install 
-- cd $HOME/software/install &&  tar cjf feelpp-ubuntu-precise-latest.tar.bz2 . 
+- make install
+- cd $HOME/software/install &&  tar cjf feelpp-ubuntu-precise-latest.tar.bz2 .
+- rm batchFile; touch batchFile
+- echo "put  feelpp-ubuntu-precise-latest.tar.bz2 writeable/feelpp-ubuntu-precise-latest.tar.bz2" > batchFile
+- sftp -b batchFile travis:$SSH_PASS@46.101.232.162
 
 branches:
   only:
