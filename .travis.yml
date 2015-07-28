@@ -141,7 +141,6 @@ after_success:
 - ls $HOME/software/install 
 # upload tarball
 - rm batch; touch batch
-- export SSHPASS=$SSH_PASS
 - echo "#!/usr/bin/expect" > batch
 - echo "spawn sftp travis@46.101.232.162" >> batch
 - echo "expect \"The authenticity of host '46.101.232.162 (46.101.232.162)' can't be established.\n\"" >> batch
@@ -149,7 +148,7 @@ after_success:
 - echo "expect \"Are you sure you want to continue connecting (yes/no)?\n\"" >> batch
 - echo "send \"yes\n\"" >> batch
 - echo "expect \"password:\"" >> batch
-- echo "send \"$SSHPASS\n\"" >> batch
+- echo "send \"$SSH_PASS\n\"" >> batch
 - echo "expect \"sftp>\"" >> batch
 - echo "send \"put feelpp-ubuntu-precise-latest.tar.bz2 writeable/feelpp-ubuntu-precise-latest.tar.bz2\n\"" >> batch
 - echo "expect \"sftp>\"" >> batch
