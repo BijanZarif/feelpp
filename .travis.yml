@@ -15,7 +15,7 @@ env:
 addons:
   apt:
     packages: &std_packages
-    - sshpass 
+    - expect 
 #    - gfortran
 #    - cmake
 #    - libtbb-dev
@@ -139,9 +139,17 @@ script:
 after_success:
 #- make install
 #- cd $HOME/software/install &&  tar cjf feelpp-ubuntu-precise-latest.tar.bz2 .
-- rm batchFile; touch batchFile
-- echo "put toto writeable/toto" > batchFile
-- sshpass -p $SSH_PASS sftp -o StrictHostKeyChecking=no -oBatchMode=no -b `pwd`/batchFile travis@46.101.232.162
+- rm batch; touch batch
+- echo "#!/usr/bin/expect" > batch
+- echo "spawn sftp travis@csmi.math.unistra.fr" > batch
+- echo "expect \"password:\"" > batch
+- echo "send \"$SSH_PASS\n\"" > batch
+- echo "expect \"sftp>\"" > batch
+- echo "send \"put toto writeable/toto\n\"" > batch
+- echo "expect \"sftp>\"" > batch
+- echo "send \"exit\n\"" > batch
+- echo "interact" > batch
+- chmod +x batch; ./batch
 
 #branches:
 #  only:
