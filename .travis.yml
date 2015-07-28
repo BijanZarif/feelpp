@@ -141,7 +141,7 @@ after_success:
 #- cd $HOME/software/install &&  tar cjf feelpp-ubuntu-precise-latest.tar.bz2 .
 - rm batchFile; touch batchFile
 - echo "put toto writeable/toto" > batchFile
-- `which sshpass` -p $SSH_PASS sftp -o StrictHostKeyChecking=no -oBatchMode=no -b `pwd`/batchFile travis@46.101.232.162
+- sshpass -p $SSH_PASS sftp -o StrictHostKeyChecking=no -oBatchMode=no -b `pwd`/batchFile travis@46.101.232.162
 
 #branches:
 #  only:
