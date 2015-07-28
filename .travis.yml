@@ -140,10 +140,11 @@ after_success:
 #- make install
 #- cd $HOME/software/install &&  tar cjf feelpp-ubuntu-precise-latest.tar.bz2 .
 - rm batch; touch batch
+- export SSHPASS=$SSH_PASS
 - echo "#!/usr/bin/expect" > batch
-- echo "spawn sftp travis@csmi.math.unistra.fr" >> batch
+- echo "spawn sftp travis@46.101.232.162" >> batch
 - echo "expect \"password:\"" >> batch
-- echo "send \"$SSH_PASS\n\"" >> batch
+- echo "send \"$SSHPASS\n\"" >> batch
 - echo "expect \"sftp>\"" >> batch
 - echo "send \"put toto writeable/toto\n\"" >> batch
 - echo "expect \"sftp>\"" >> batch
